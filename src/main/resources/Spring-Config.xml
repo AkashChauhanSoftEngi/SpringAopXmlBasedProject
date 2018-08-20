@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop   
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<aop:aspectj-autoproxy/>
+	
+	<bean id="performance" class="com.spring.aop.concert.PerformanceImpl">
+	</bean>
+	
+	<bean id="audience" class="com.spring.aop.concert.Audience">
+	</bean>
+	
+	<aop:config>
+		<aop:aspect ref="audience">
+			<aop:before pointcut="execution(public void com.spring.aop.concert.Performance.perform())" method="takeSeats"/>
+			<aop:before pointcut="execution(public void com.spring.aop.concert.Performance.perform())" method="silenceCellPhones"/>
+			<aop:after-returning pointcut="execution(public void com.spring.aop.concert.Performance.perform())" method="applause"/>
+			<aop:after-throwing pointcut="execution(public void com.spring.aop.concert.Performance.perform(int))" method="demandRefund"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>
